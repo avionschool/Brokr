@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :role_id, presence: true
   # validates :email, presence: true
+
+  has_one :role
 end
