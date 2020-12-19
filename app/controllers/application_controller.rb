@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
     before_action :configure_permitted_parameters, if: :devise_controller?
 
     def index
-        render html: 'application', layout: true
+        render html: '', layout: true
     end
 
     protected
