@@ -1,3 +1,6 @@
-<%= @stocks.each do |stock|%>
-        <p> <%= stock.symbol %> </p>
+<ul>
+    <%= @stocks.each do |stock| %>
+        <% quote = @client.quote(stock.symbol) %>
+        <li> <%= "#{stock.symbol} | #{quote.latest_price}" %> </li>
     <% end %>
+</ul>
