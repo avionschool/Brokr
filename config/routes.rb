@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   get '/stocks' => 'stock#index'
 
-  resources :users do
+  # resources :users do
     
-  end
+  # end
 end
