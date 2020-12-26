@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
+  let( :user ) { 
+    User.new(   role_id: 1,
+                email: 'mat@email.com',
+                password: 'password'
+    )
+  }
   context "Validations" do
     it "is not valid without role_id" do
       user = User.new(email: 'mat@email.com', encrypted_password: '123456')
@@ -21,7 +26,6 @@ RSpec.describe User, type: :model do
     end
 
     it "should save successfully" do
-      user = User.new(role_id: '1', email: 'mat@email.com', encrypted_password: '123456')
       user.save
       expect(user).to be_valid
       expect(user.errors).to_not be_present
