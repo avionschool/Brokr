@@ -4,12 +4,16 @@
     <title>Brokr</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel = 'stylesheet' href = 'index.csss.erb'>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <%= render "shared/navbar"%>
     <span class="notice"><%= notice %></span>
     <span class="alert"><%= alert %></span>
     <% if user_signed_in? %>
