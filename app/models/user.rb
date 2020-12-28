@@ -4,7 +4,21 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   validates :role_id, presence: true
-  # validates :email, presence: true
-
+  validates :status_approved, presence: true
+  
   has_one :role
+  
+  before_validation :init_status_approved
+
+  def init_status_approved
+    # id:1 - admin 
+    # id:2 - broker 
+    # id:3 - buyer 
+    if (self.role_id == 2)  
+      self.status_approved = false
+    elsif (self.role_id == 3 || self.role_id == 1)  
+      self.status_approved = true
+    end
+  end
+
 end

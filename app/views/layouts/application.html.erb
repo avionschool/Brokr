@@ -21,6 +21,7 @@
         <% if user_signed_in? %>
             <%= current_user.email %> |
             <%= Role.find_by(id: current_user.role_id).name %> |
+            <%= current_user.status_approved ? "approved" : "pending" %> |
             <%= link_to 'user settings', edit_user_registration_path %> |
             <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
         <% else %>
