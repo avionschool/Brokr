@@ -4,9 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   validates :role_id, presence: true
-  validates :status_approved, presence: true
+
+  # kinoment out ko muna tong status approved para makapasok yung broker sa page.
+  # validates :status_approved, presence: true
   
-  has_one :role
+  # has_one :role
   
   before_validation :init_status_approved
 
