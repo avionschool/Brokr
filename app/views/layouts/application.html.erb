@@ -50,8 +50,10 @@
                 <tr>
                   <% if broker.role_id === 2 %>
                     <td><%= broker.email %></td>  
-                    <td><%= broker.role_id %></td>  
-                    <td><%= broker.status_approved %></td>
+                    <td><%= Role.find_by(id: broker.role_id).name %></td>  
+                    <td><%= broker.status_approved ? "approved" : "pending" %></td>
+                    <td><%= link_to 'approve' %></td>
+                    <td><%= link_to 'decline' %></td>
                   <% else %>
                   <% end %>  
                 </tr>
