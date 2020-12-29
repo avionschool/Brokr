@@ -29,8 +29,41 @@
             <li><%= link_to 'Sign Up', new_user_registration_path %></li>
         <% end %>
       </span>
-      <hr />
+      <hr/>
     <% end %>
     <%= yield %>
+
+    <%# Admin Page (for Broker status) %>
+    <% if user_signed_in? %>
+     <% if current_user.role_id === 1 %>
+      <table>
+          <thead>
+            <tr>
+              <th>EMAIL</th>
+              <th>ROLE</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+
+          <tbody>
+              <% User.all.each do |broker| %>
+                <tr>
+                  <% if broker.role_id === 2 %>
+                    <td><%= broker.email %></td>  
+                    <td><%= broker.role_id %></td>  
+                    <td><%= broker.status_approved %></td>
+                  <% else %>
+                  <% end %>  
+                </tr>
+              <% end %>
+          </tbody>
+
+       </table>
+       <% else %>
+      <% end %>
+     <% else %>
+    <% end %>
+    <%# End of Page %>
+    
   </body>
 </html>
