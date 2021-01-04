@@ -1,8 +1,21 @@
-<h1>Pending Brokers</h1>
-<%# Admin Page (for Broker status) %>
-    <% if user_signed_in? %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pending Broker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Pending Brokers
+      </h1>
+      <table class="table">
+       <% if user_signed_in? %>
      <% if current_user.role_id === 1 %>
-      <table>
+      <table class ="table">
           <thead>
             <tr>
               <th>ID</th>
@@ -20,11 +33,11 @@
                     <td><%= broker.email %></td>  
                     <td><%= Role.find_by(id: broker.role_id).name %></td>  
                     <td><%= broker.status_approved ? "approved" : "pending" %></td>
-                    <% if broker.status_approved === false %>
-                    <td><%= link_to 'approve', user_path(broker.id), method: :patch %></td>
-                    <td><%= link_to 'decline' %></td>
-                    <% else %>
-                    <% end %>
+                      <% if broker.status_approved === false %>
+                       <td><%= link_to 'approve', user_path(broker.id), method: :patch %></td>
+                       <td><%= link_to 'decline' %></td>
+                      <% else %>
+                      <% end %>
                     
                    <% else %>
                   <% end %>  
@@ -37,4 +50,10 @@
       <% end %>
       <% else %>
       <% end %>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>
+
     
