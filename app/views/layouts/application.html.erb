@@ -4,27 +4,34 @@
     <title>Brokr</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel = 'stylesheet' href = 'index.csss.erb'>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <%= render "shared/navbar"%>
     <span class="notice"><%= notice %></span>
     <span class="alert"><%= alert %></span>
     <% if user_signed_in? %>
-      <span>
         <% if user_signed_in? %>
-            <%= current_user.email %> |
+            <span class="column"><%= current_user.email %> |
             <%= Role.find_by(id: current_user.role_id).name %> |
+            <%= current_user.status_approved ? "approved" : "pending" %> |
             <%= link_to 'user settings', edit_user_registration_path %> |
-            <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+            <%= link_to 'Log out', destroy_user_session_path, method: :delete %> |
+             <% if current_user.role_id === 1 %>
+              <%= link_to 'Pending Brokers', users_path %>
+              <% else %>
+             <% end %> </span>
         <% else %>
             <li><%= link_to 'Log In', new_user_session_path %></li>
             <li><%= link_to 'Sign Up', new_user_registration_path %></li>
         <% end %>
-      </span>
-      <hr />
+      <hr/>
     <% end %>
     <%= yield %>
   </body>
