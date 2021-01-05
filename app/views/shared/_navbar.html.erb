@@ -15,14 +15,13 @@
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
 
-    <%# <%= link_to "Improve Your Ruby Skills", "/ruby-book" %>
-      <a class="navbar-item">
-        Home
-      </a>
-
-      <a class="navbar-item">
-        Transaction
-      </a>
+      <%= link_to 'Home', stocks_path, class: "navbar-item" %>
+      
+      <% if user_signed_in? %>
+        <% if current_user.role_id === 1 %>
+          <%= link_to 'Pending Brokers', users_path, class: "navbar-item" %>
+        <% end %>
+      <% end %>
 
       <%# <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
@@ -49,10 +48,18 @@
 
     <div class="navbar-end">
       <div class="navbar-item">
-        <div class="buttons">
-            <%= link_to "Sign Up", "/users/sign_up", class: "button is-primary" %>
-            <%= link_to "Log In", "/users/sign_in", class: "button is-light"%>
-        </div>
+        <% if user_signed_in? %>
+            <div class="navbar-item"><%= current_user.email %></div> |
+            <div class="navbar-item"><%= Role.find_by(id: current_user.role_id).name %></div> |
+            <div class="navbar-item"><%= current_user.status_approved ? "approved" : "pending" %></div> |
+            <div class="navbar-item"><%= link_to 'user settings', edit_user_registration_path %></div> |
+            <div class="navbar-item"><%= link_to 'Log out', destroy_user_session_path, method: :delete %></div>
+        <% else %>
+          <div class="buttons">
+            <%= link_to "Sign Up", new_user_registration_path, class: "button is-primary" %>
+            <%= link_to "Log In", new_user_session_path, class: "button is-light"%>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
