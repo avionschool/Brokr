@@ -12,6 +12,7 @@
         <% end %>
     </thead>
     <tbody>
+        
         <%@stocks.each do |stock| %>
             <tr>
                 <% quote = @client.quote(stock.symbol) %>
@@ -20,8 +21,10 @@
                 <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
                     <td>
                         <%= form_with model: @stock, local: true do |form| %>
-                            <%= form.label :quantity %>
-                            <%= form.number_field :quantity %>
+                            <% if false %>
+                                <%= form.label :quantity %>
+                                <%= form.number_field :quantity %>
+                                <% end %>
                             <%= form.submit "add" %>
                         <% end %>
                     </td>
