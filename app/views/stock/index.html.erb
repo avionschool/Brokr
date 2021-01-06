@@ -1,33 +1,32 @@
-<% broker_and_approved = user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
 
-<ul>
-    <table class="table">
-        <thead>
-            <th>Company</th>
-            <th>Latest Price</th>
-            <% if broker_and_approved %>
+<table class="table">
+    <thead>
+        <th>Company</th>
+        <th>Latest Price</th>
+        <% if user_signed_in? && current_user.role_id === 2 %>
+            <% if current_user.status_approved? %>
                 <th>add to brokerage profile</th>
+            <% else %>
+                <th class="is-warning">(warning: your broker status needs to be approved first)</th>
             <% end %>
-        </thead>
-        <tbody>
-            <% if true %>
-                <%@stocks.each do |stock| %>
-                    <tr>
-                        <% quote = @client.quote(stock.symbol) %>
-                        <td> <%= "#{stock.symbol}" %> </td>
-                        <td> <%= "#{quote.latest_price}" %> </td>
-                        <% if broker_and_approved %>
-                            <td>
-                                <%= form_with model: @stock, local: true do |form| %>
-                                    <%= form.label :quantity %>
-                                    <%= form.number_field :quantity %>
-                                    <%= form.submit "add" %>
-                                <% end %>
-                            </td>
+        <% end %>
+    </thead>
+    <tbody>
+        <%@stocks.each do |stock| %>
+            <tr>
+                <% quote = @client.quote(stock.symbol) %>
+                <td> <%= "#{stock.symbol}" %> </td>
+                <td> <%= "#{quote.latest_price}" %> </td>
+                <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
+                    <td>
+                        <%= form_with model: @stock, local: true do |form| %>
+                            <%= form.label :quantity %>
+                            <%= form.number_field :quantity %>
+                            <%= form.submit "add" %>
                         <% end %>
-                    </tr>
+                    </td>
                 <% end %>
-            <% end %>
-        </tbody>
-    <table>
-</ul>
+            </tr>
+        <% end %>
+    </tbody>
+<table>
