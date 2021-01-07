@@ -1,28 +1,32 @@
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-  <%# <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <%# <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"> %>
-    <%# </a> %>
+  <div class="navbar-brand">
+    <%#
+      <a class="navbar-item" href="https://bulma.io">
+        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      </a>
+      <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    %>
 
-    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
+    <%= link_to 'Home', root_path, class: "navbar-item" %>
+      
+    <% if user_signed_in? %>
+      <% if current_user.role_id === 1 %>
+        <%= link_to 'Pending Brokers', users_path, class: "navbar-item" %>
+      <% end %>
+    <% end %>
+
+    
   </div>
 
  <%# NavBar Contents: Home, Transaction, (Brokers), Signin/Signout %>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
 
-    <%# <%= link_to "Improve Your Ruby Skills", "/ruby-book" %>
-      <a class="navbar-item">
-        Home
-      </a>
-
-      <a class="navbar-item">
-        Transaction
-      </a>
+      
 
       <%# <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
@@ -49,10 +53,18 @@
 
     <div class="navbar-end">
       <div class="navbar-item">
-        <div class="buttons">
-            <%= link_to "Sign Up", "/users/sign_up", class: "button is-primary" %>
-            <%= link_to "Log In", "/users/sign_in", class: "button is-light"%>
-        </div>
+        <% if user_signed_in? %>
+            <%= link_to current_user.email, user_path(id: current_user.role_id) %> |
+            <%= Role.find_by(id: current_user.role_id).name %> |
+            <%= current_user.status_approved ? "approved" : "pending" %> |
+            <%= link_to 'user settings', edit_user_registration_path %> |
+            <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <div class="buttons">
+            <%= link_to "Sign Up", new_user_registration_path, class: "button is-primary" %>
+            <%= link_to "Log In", new_user_session_path, class: "button is-light"%>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
