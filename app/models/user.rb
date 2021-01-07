@@ -7,6 +7,10 @@ class User < ApplicationRecord
 
   # kinoment out ko muna tong status approved para makapasok yung broker sa page.
   # validates :status_approved, presence: true
+
+  # User-Stock many-to-many association
+  has_many :user_stocks
+  has_many :stocks, through: :user_stocks
   
   # has_one :role
   

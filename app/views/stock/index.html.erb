@@ -1,6 +1,38 @@
-<ul>
-    <%= @stocks.each do |stock| %>
-        <% quote = @client.quote(stock.symbol) %>
-        <li> <%= "#{stock.symbol} | #{quote.latest_price}" %> </li>
-    <% end %>
-</ul>
+
+<table class="table">
+    <thead>
+        <th>Company</th>
+        <th>Latest Price</th>
+        <% if user_signed_in? && current_user.role_id === 2 %>
+            <% if current_user.status_approved? %>
+                <th>add to broker profile</th>
+            <% else %>
+                <th class="is-warning">(warning: your broker status needs to be approved first)</th>
+            <% end %>
+        <% end %>
+    </thead>
+    <tbody>
+        <h1 class="title">Top Stocks for Sale</h1>
+        <%@stocks.each do |stock| %>
+            <tr>
+                <% quote = @client.quote(stock.symbol) %>
+                <td> <%= "#{stock.symbol}" %> </td>
+                <td> <%= "#{quote.latest_price}" %> </td>
+                <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
+                    <td>
+                        <%= form_with scope: :user_stock, url: user_stocks_path, method: "post", local: true do |form| %>
+                            
+                            <%= form.hidden_field :user_id, value: current_user.id %>
+                            <%= form.hidden_field :stock_id, value: stock.id %>
+                            <% if false %>
+                                <%= form.label :quantity %>
+                                <%= form.number_field :quantity %>
+                            <% end %>
+                            <%= form.submit "add", data: { confirm: 'Are you sure you want to add this to your broker profile?' } %>
+                        <% end %>
+                    </td>
+                <% end %>
+            </tr>
+        <% end %>
+    </tbody>
+<table>
