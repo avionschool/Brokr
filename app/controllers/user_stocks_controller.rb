@@ -17,6 +17,7 @@ class UserStocksController < ApplicationController
 
   def create
     @user_stock = UserStock.new(user_stock_params)
+    # TODO: set user_stock quantity here
 
     @stock = Stock.where(id: params[:stock_id])
     # @stock.users << current_user

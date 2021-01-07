@@ -27,6 +27,11 @@
                 <th>broker options</th>
             <% end %>
         <% end %>
+        <% if user_signed_in? && current_user.role_id === 3 %>
+            <% if current_user.status_approved? %>
+                <th>buyer options</th>
+            <% end %>
+        <% end %>
     </thead>
     <tbody>
         <h1 class="title">Stocks for Sale</h1>
@@ -41,6 +46,11 @@
                 <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
                     <td>
                         remove
+                    </td>
+                <% end %>
+                <% if user_signed_in? && current_user.role_id === 3 %>
+                    <td>
+                        
                     </td>
                 <% end %>
             </tr>
