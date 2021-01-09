@@ -11,6 +11,9 @@ class User < ApplicationRecord
   # User-Stock many-to-many association
   has_many :user_stocks
   has_many :stocks, through: :user_stocks
+
+  has_many :transactions
+  has_many :stocks, through: :transactions
   
   # has_one :role
   
