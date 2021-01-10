@@ -8,4 +8,8 @@ class Stock < ApplicationRecord
     # Transaction many-to-many association
     has_many :transactions
     has_many :users, through: :transactions
+
+    # Buyer Stock many-to-many association
+    has_many :buyers_stocks
+    has_many :stocks, through: :buyers_stocks
 end

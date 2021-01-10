@@ -14,6 +14,9 @@ class User < ApplicationRecord
 
   has_many :transactions
   has_many :stocks, through: :transactions
+
+  has_many :buyers_stocks
+  has_many :stocks, through: :buyers_stocks
   
   # has_one :role
   
