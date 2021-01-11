@@ -31,10 +31,6 @@ class StockController < ApplicationController
         @stocks = Stock.all.slice(0, 10)
     end
 
-    # def index
-    #     @stock = client.all
-    # end
-
     def show
         @stock = Stock.find(params[:id])
     end
