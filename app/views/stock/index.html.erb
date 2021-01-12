@@ -6,6 +6,7 @@
         <th>Latest Price</th>
         <% if user_signed_in? && current_user.role_id === 2 %>
             <% if current_user.status_approved? %>
+                <th>Current Qty</th>
                 <th>add to broker profile</th>
             <% else %>
                 <th class="is-warning">(warning: your broker status needs to be approved first)</th>
@@ -17,9 +18,11 @@
         <%@stocks.each do |stock| %>
             <tr>
                 <% quote = @client.quote(stock.symbol) %>
+                <% @user_stock = UserStock.where(stock_id: stock.id, user_id: current_user.id).first %>
                 <td> <%= "#{stock.symbol}" %> </td>
                 <td> <%= "#{quote.company_name}" %> </td>
                 <td> <%= "#{quote.latest_price}" %> </td>
+                <td> <%= @user_stock.class.to_s === "UserStock" ? @user_stock.quantity : "none" %> </td>
                 <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
                     <td>
                         <%= form_with scope: :user_stock, url: user_stocks_path, method: "post", local: true do |form| %>
