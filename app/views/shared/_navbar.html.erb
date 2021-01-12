@@ -1,0 +1,36 @@
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+
+    <%= link_to 'Home', root_path, class: "navbar-item" %>
+      
+    <% if user_signed_in? %>
+      <% if current_user.role_id === 1 %>
+        <%= link_to 'Pending Brokers', users_path, class: "navbar-item" %>
+      <% end %>
+    <% end %>
+
+    
+  </div>
+
+ <%# NavBar Contents: Home, Transaction, (Brokers), Signin/Signout %>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <% if user_signed_in? %>
+            <%= link_to current_user.email, user_path(id: current_user.role_id) %> |
+            <%= Role.find_by(id: current_user.role_id).name %> |
+                <% if (current_user.role_id === 2) %>
+                  <%= current_user.status_approved ? "approved" : "pending" %> |
+                <% end %>
+            <%= link_to 'user settings', edit_user_registration_path %> |
+            <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <div class="buttons">
+            <%= link_to "Sign Up", new_user_registration_path, class: "button is-primary" %>
+            <%= link_to "Log In", new_user_session_path, class: "button is-light"%>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
