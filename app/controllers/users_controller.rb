@@ -12,10 +12,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user.role_id === 1
-      approved
-    else
-    end
+  (current_user.role_id === 2) ? pending : approved
   end
 
   private
