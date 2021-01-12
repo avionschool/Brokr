@@ -1,6 +1,7 @@
 
 <table class="table">
     <thead>
+        <th>Symbol</th>
         <th>Company</th>
         <th>Latest Price</th>
         <% if user_signed_in? && current_user.role_id === 2 %>
@@ -17,6 +18,7 @@
             <tr>
                 <% quote = @client.quote(stock.symbol) %>
                 <td> <%= "#{stock.symbol}" %> </td>
+                <td> <%= "#{quote.company_name}" %> </td>
                 <td> <%= "#{quote.latest_price}" %> </td>
                 <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
                     <td>
@@ -24,7 +26,7 @@
                             
                             <%= form.hidden_field :user_id, value: current_user.id %>
                             <%= form.hidden_field :stock_id, value: stock.id %>
-                            <% if false %>
+                            <% if true %>
                                 <%= form.label :quantity %>
                                 <%= form.number_field :quantity %>
                             <% end %>

@@ -16,7 +16,8 @@ class UserStocksController < ApplicationController
     # TODO: set user_stock quantity here
 
     @stock = Stock.where(id: params[:stock_id])
-    # @stock.users << current_user
+    # @user = User.where(id: params[:user_id])
+    # @stock.users << @user
     current_user.stocks << @stock
 
     if @user_stock.save
@@ -46,7 +47,8 @@ class UserStocksController < ApplicationController
   def destroy
       @user_stock = UserStock.find(params[:id])
       @user_stock.destroy
-      redirect_to categories_path
+      # redirect_to user_stocks_path
+      redirect_to "/users/#{params[:user_id]}"
   end
 
   private

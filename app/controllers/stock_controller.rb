@@ -28,7 +28,7 @@ class StockController < ApplicationController
             end
         end 
 
-        @stocks = Stock.all.slice(0, 10)
+        @stocks = Stock.all.slice(0, 5)
     end
 
     def show
