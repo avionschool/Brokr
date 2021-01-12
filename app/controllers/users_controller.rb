@@ -12,10 +12,16 @@ class UsersController < ApplicationController
   end
 
   def update
-    if current_user.role_id === 1
-      approved
-    else
-    end
+    # if current_user.role_id === 1
+    #   approved
+    # else
+    # end
+    @user = User.find(params[:id])
+    @user.update_attribute(:status_approved, true)
+    UserNotifierMailer.broker_confirmed_email(@user).deliver_now
+    redirect_to users_path
+
+
   end
 
   private
