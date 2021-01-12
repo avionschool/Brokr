@@ -8,11 +8,7 @@ class UserStocksController < ApplicationController
   end
 
   def new
-    # @user_stock = UserStock.new 
-
-    # @stock = Stock.find(params[:stock_id])
-    # @stock.users << current_user
-    # current_user.stocks << @stock
+   
   end
 
   def create

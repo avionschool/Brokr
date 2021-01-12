@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   end
 
   def update
+<<<<<<< HEAD
     # if current_user.role_id === 1
     #   approved
     # else
@@ -22,6 +23,9 @@ class UsersController < ApplicationController
     redirect_to users_path
 
 
+=======
+  (current_user.role_id === 2) ? pending : approved
+>>>>>>> 2e6d5c7a749298f505bb6c8511a397b70797ca09
   end
 
   private

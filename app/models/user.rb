@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :confirmable
   validates :role_id, presence: true
 
   # kinoment out ko muna tong status approved para makapasok yung broker sa page.
@@ -11,6 +11,9 @@ class User < ApplicationRecord
   # User-Stock many-to-many association
   has_many :user_stocks
   has_many :stocks, through: :user_stocks
+
+  has_many :transactions
+  has_many :stocks, through: :transactions
   
   # has_one :role
   

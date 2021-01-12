@@ -9,7 +9,7 @@ class StockController < ApplicationController
         # @stocks = @client.ref_data_symbols().slice(0, 10)
         
         # TODO: improve
-        if(Stock.all.length == 0)
+        if(Stock.all.length == 0) # if the db is empty, then populate it
             # get top 10 stock companies
             @stocks_from_api = @client.stock_market_list(:mostactive).slice(0, 10)
             @stocks_from_api.each do |stock_from_api|
@@ -19,6 +19,7 @@ class StockController < ApplicationController
                 # stock.symbol = stock_from_api.symbol
 
                 # update if exists, create if doesn't exist
+                # TODO: improve
                 stock = Stock.find_or_initialize_by(:symbol => stock_from_api.symbol) do |s|
                     s.symbol = stock_from_api.symbol
                 end
@@ -29,10 +30,6 @@ class StockController < ApplicationController
 
         @stocks = Stock.all.slice(0, 10)
     end
-
-    # def index
-    #     @stock = client.all
-    # end
 
     def show
         @stock = Stock.find(params[:id])
