@@ -39,8 +39,9 @@ class UserStocksController < ApplicationController
     # @stock.users << @user
     current_user.stocks << @stock
 
+    #create a transaction record
+    Transaction.create(user_stock_params)
     
-
     # if @user_stock.save
         # redirect_to user_stocks_path
         # redirect_to stocks_path
@@ -48,6 +49,12 @@ class UserStocksController < ApplicationController
     # else
     #     render :new
     # end
+
+    
+  end
+
+  def record
+
   end
 
   def edit
