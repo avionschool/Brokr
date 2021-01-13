@@ -10,20 +10,12 @@ class TransactionController < ApplicationController
     def new
     end
 
+    def show 
+        @transaction = Transaction.where(user_id: params[:user_id])
+    end
 
     def create
-        # 1. from current transaction:
-        # find stock information
-        @stock = Stock.find(params[:stock_id])
-
-        # record the quantity bought by user
-        @quantity = params[:quantity]
-
-        # 2. calculate total price
-        @total_price = @client.quote(@stock.symbol) * quantity
-
-        # 3. record new transaction by recording: user_id, stock_id, quantity and total_price
-        @transaction = Transaction.new(user_id: params[:user_id], stock_id: params[:stock_id], quantity: params[:quantity] total_price: @total_price)
+        @transaction = Transaction.new(user_id: params[:user_id], stock_id: params[:stock_id], quantity: params[:quantity],purchase_price: params[:purchase_price])
         @transaction.save 
     end
 
@@ -41,7 +33,7 @@ class TransactionController < ApplicationController
 
     private
     def transaction_params
-        params.require(:transaction).permit(:user_id, :stock_id, :quantity, :total_price)
+        params.require(:transaction).permit(:user_id, :stock_id, :quantity, :total_price, :purchase_price)
     end
     
 end

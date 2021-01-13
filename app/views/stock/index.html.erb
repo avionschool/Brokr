@@ -28,6 +28,8 @@
                             
                             <%= form.hidden_field :user_id, value: current_user.id %>
                             <%= form.hidden_field :stock_id, value: stock.id %>
+                            <%= form.hidden_field :purchase_price, value: quote.latest_price %>
+
                             <% if true %>
                                 <%= form.label :quantity %>
                                 <%= form.number_field :quantity %>

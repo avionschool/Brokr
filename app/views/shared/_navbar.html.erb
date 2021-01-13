@@ -11,6 +11,11 @@
         <% else %>
         <%= link_to 'Profile', user_path(current_user.id), method: :get, class: 'navbar-item'%>
       <% end %>
+      
+      <%# Show Transactions %>
+      <%# admin => show all transactions || buyer/broker => show current_user transactions %>
+      <%= link_to 'Transactions', transaction_path(current_user.id), method: :get, class: 'navbar-item'%>
+
     <% end %>
     
   </div>
