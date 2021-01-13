@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   # end
 
   resources :user_stocks
-
+  resources :transaction
 end
