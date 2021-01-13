@@ -2,13 +2,16 @@
   <div class="navbar-brand">
 
     <%= link_to 'Home', root_path, class: "navbar-item" %>
-      
+    
+    <%# if admin => show pending brokers %>
+    <%# else if broker/buyer => show user profile%>
     <% if user_signed_in? %>
       <% if current_user.role_id === 1 %>
         <%= link_to 'Pending Brokers', users_path, class: "navbar-item" %>
+        <% else %>
+        <%= link_to 'Profile', user_path(current_user.id), method: :get, class: 'navbar-item'%>
       <% end %>
     <% end %>
-
     
   </div>
 

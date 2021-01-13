@@ -36,7 +36,7 @@
         <% end %>
     </thead>
     <tbody>
-        <h1 class="title">Stocks for Sale</h1>
+        <h1 class="title">Stocks Acquired</h1>
 
 
         <% @user_stocks = UserStock.where(user_id: @user.id) %>
@@ -50,9 +50,9 @@
                 <td> <%= "#{quote.company_name}" %> </td>
                 <td> <%= "#{quote.latest_price}" %> </td>
                 <td> <%= "#{user_stock.quantity}" %> </td>
-                <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
+                <% if user_signed_in? && current_user.role_id != 1 && current_user.status_approved? %>
                     <td>
-                        <%= link_to "remove", user_stocks_path(:id => user_stock.id, :user_id => @user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+                        <%= link_to "remove", user_stock_path(:id => user_stock.id, :user_id => @user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
                     </td>
                 <% end %>
                 <% if user_signed_in? && current_user.role_id === 3 %>

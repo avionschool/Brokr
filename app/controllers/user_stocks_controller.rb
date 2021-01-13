@@ -82,7 +82,7 @@ class UserStocksController < ApplicationController
 
   private
   def user_stock_params
-      params.require(:user_stock).permit(:user_id, :stock_id, :quantity)
+      params.require(:user_stock).permit(:user_id, :stock_id, :quantity, :id)
   end
 
  
