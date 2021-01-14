@@ -49,7 +49,8 @@ class UserStocksController < ApplicationController
       @user_stock = UserStock.find(params[:id])
       @user_stock.destroy
       # redirect_to user_stocks_path
-      redirect_to "/users/#{params[:user_id]}"
+      # redirect_to "/users/#{params[:user_id]}"
+      redirect_to "/users/#{current_user.id}"
   end
 
   private
