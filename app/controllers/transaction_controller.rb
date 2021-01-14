@@ -16,7 +16,7 @@ class TransactionController < ApplicationController
 
     def create
         @transaction = Transaction.new(user_id: params[:user_id], stock_id: params[:stock_id], quantity: params[:quantity],purchase_price: params[:purchase_price])
-        @transaction.save 
+        @transaction.save
     end
 
     def edit
@@ -33,7 +33,7 @@ class TransactionController < ApplicationController
 
     private
     def transaction_params
-        params.require(:transaction).permit(:user_id, :stock_id, :quantity, :total_price, :purchase_price)
+        params.require(:transaction).permit(:user_id, :stock_id, :quantity, :purchase_price)
     end
     
 end

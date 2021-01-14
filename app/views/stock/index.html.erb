@@ -1,44 +1,50 @@
-<table class="table">
-    <thead>
-        <th>Symbol</th>
-        <th>Company</th>
-        <th>Latest Price</th>
-        <% if user_signed_in? && current_user.role_id === 2 %>
-            <% if current_user.status_approved? %>
-                <th>Current Qty</th>
-                <th>add to profile</th>
-            <% else %>
-                <th class="is-warning">(warning: your broker status needs to be approved first)</th>
-            <% end %>
-        <% end %>
-    </thead>
-    <tbody>
-        <h1 class="title">Top Stocks for Sale</h1>
-        <% @stocks.each do |stock| %>
-            <tr>
-                <% quote = @client.quote(stock.symbol) %>
-                <td> <%= "#{stock.symbol}" %> </td>
-                <td> <%= "#{quote.company_name}" %> </td>
-                <td> <%= "#{quote.latest_price}" %> </td>
-
-                <%# if the current user is BUYER/SELLER => Show QTY and ADD %>
-                <% if user_signed_in? && current_user.role_id != 1 && current_user.status_approved? %>
-                    <td>
-                        <%= form_with scope: :user_stock, url: user_stocks_path, method: "post", local: true do |form| %>
-                            
-                            <%= form.hidden_field :user_id, value: current_user.id %>
-                            <%= form.hidden_field :stock_id, value: stock.id %>
-                            <%= form.hidden_field :purchase_price, value: quote.latest_price %>
-
-                            <% if true %>
-                                <%= form.label :quantity %>
-                                <%= form.number_field :quantity %>
-                            <% end %>
-                            <%= form.submit "add", data: { confirm: 'Are you sure you want to add this to your broker profile?' } %>
+<section class="section">
+    <div class="columns is-centered">
+        <div class="column is-narrow">
+            <table class="table is-centered">
+                <thead>
+                    <th>Symbol</th>
+                    <th>Company</th>
+                    <th>Latest Price</th>
+                    <% if user_signed_in? && current_user.role_id === 2 %>
+                        <% if current_user.status_approved? %>
+                            <th>Current Qty</th>
+                            <th>add to profile</th>
+                        <% else %>
+                            <th class="is-warning">(warning: your broker status needs to be approved first)</th>
                         <% end %>
-                    </td>
-                <% end %>
-            </tr>
-        <% end %>
-    </tbody>
-<table>
+                    <% end %>
+                </thead>
+                <tbody>
+                    <h1 class="title">Top Stocks for Sale</h1>
+                    <% @stocks.each do |stock| %>
+                        <tr>
+                            <% quote = @client.quote(stock.symbol) %>
+                            <td> <%= "#{stock.symbol}" %> </td>
+                            <td> <%= "#{quote.company_name}" %> </td>
+                            <td> <%= "#{quote.latest_price}" %> </td>
+
+                            <%# if the current user is BUYER/SELLER => Show QTY and ADD %>
+                            <% if user_signed_in? && current_user.role_id != 1 && current_user.status_approved? %>
+                                <td>
+                                    <%= form_with scope: :user_stock, url: user_stocks_path, method: "post", local: true do |form| %>
+                                        
+                                        <%= form.hidden_field :user_id, value: current_user.id %>
+                                        <%= form.hidden_field :stock_id, value: stock.id %>
+                                        <%= form.hidden_field :purchase_price, value: quote.latest_price %>
+
+                                        <% if true %>
+                                            <%= form.label :quantity %>
+                                            <%= form.number_field :quantity %>
+                                        <% end %>
+                                        <%= form.submit "add", data: { confirm: 'Are you sure you want to add this to your broker profile?' } %>
+                                    <% end %>
+                                </td>
+                            <% end %>
+                        </tr>
+                    <% end %>
+                </tbody>
+            <table>
+        </div>
+    </div>
+</section>
