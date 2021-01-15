@@ -25,7 +25,7 @@
         <th>Latest Price</th>
         <th>Qty</th>
         <% if user_signed_in? && current_user.role_id === 2 %>
-            <% if current_user.status_approved? %>
+            <% if current_user.status_approved? && current_user === @user %>
                 <th>broker options</th>
             <% end %>
         <% end %>
@@ -44,13 +44,13 @@
         <%# @stocks.each do |stock| %>
         <% @user_stocks.each do |user_stock| %>
             <% stock = Stock.find_by(id: user_stock.stock_id) %>
+            <% quote = @client.quote(stock.symbol) %>
             <tr>
-                <% quote = @client.quote(stock.symbol) %>
                 <td> <%= "#{stock.symbol}" %> </td>
                 <td> <%= "#{quote.company_name}" %> </td>
                 <td> <%= "#{quote.latest_price}" %> </td>
                 <td> <%= "#{user_stock.quantity}" %> </td>
-                <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
+                <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? && current_user === @user  %>
                     <td>
                         <%= link_to "remove", user_stock_path(:id => user_stock.id, :user_id => @user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
                     </td>
