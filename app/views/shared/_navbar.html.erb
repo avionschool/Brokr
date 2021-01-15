@@ -1,14 +1,41 @@
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
+    
+    <div role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <div class="brokr-burger"> &#9776; </div>
+    </div>
 
-    <%= link_to 'Home', root_path, class: "navbar-item" %>
-      
-    <% if user_signed_in? %>
-      <% if current_user.role_id === 1 %>
-        <%= link_to 'Pending Brokers', users_path, class: "navbar-item" %>
-      <% end %>
-    <% end %>
+    <div id="navbarBasicExample" class="navbar-menu has-background-primary">
 
+      <div class="navbar-start">
+        <%= link_to "Brokr", root_path, class: "navbar-item"%>
+        <% if user_signed_in? %>
+          <% if current_user.role_id === 1 %>
+            <%= link_to 'Pending Brokers', users_path, class: "navbar-item" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <% if user_signed_in? %>
+            <%= link_to current_user.email, user_path(id: current_user.role_id), class: "is-light" %> &nbsp;|
+            <%= Role.find_by(id: current_user.role_id).name %> |
+            <% if (current_user.role_id === 2) %>
+              <%= current_user.status_approved ? "approved" : "pending" %> |&nbsp;
+            <% end %>
+            <%= link_to 'user settings', edit_user_registration_path, class: "is-light" %> &nbsp;|&nbsp;
+            <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "is-light" %>
+          <% else %>
+            <div class="buttons">
+              <%= link_to "Sign Up", new_user_registration_path, class: "button is-primary" %>
+              <%= link_to "Log In", new_user_session_path, class: "button is-light" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
     
   </div>
 
@@ -16,21 +43,36 @@
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-end">
       <div class="navbar-item">
-        <% if user_signed_in? %>
-            <%= link_to current_user.email, user_path(id: current_user.role_id) %> |
-            <%= Role.find_by(id: current_user.role_id).name %> |
-                <% if (current_user.role_id === 2) %>
-                  <%= current_user.status_approved ? "approved" : "pending" %> |
-                <% end %>
-            <%= link_to 'user settings', edit_user_registration_path %> |
-            <%= link_to 'Log out', destroy_user_session_path, method: :delete %>
-        <% else %>
-          <div class="buttons">
-            <%= link_to "Sign Up", new_user_registration_path, class: "button is-primary" %>
-            <%= link_to "Log In", new_user_session_path, class: "button is-light"%>
-          </div>
-        <% end %>
+        
       </div>
     </div>
   </div>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+
+      // Add a click event on each of them
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+          // Get the target from the "data-target" attribute
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+
+  });
+</script>
