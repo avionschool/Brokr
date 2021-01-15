@@ -33,18 +33,58 @@
                                         <%= form.hidden_field :stock_id, value: stock.id %>
                                         <%= form.hidden_field :purchase_price, value: quote.latest_price %>
 
-                                        <% if true %>
-                                            <%= form.label :quantity %>
-                                            <%= form.number_field :quantity %>
-                                        <% end %>
-                                        <%= form.submit "add", data: { confirm: 'Are you sure you want to add this to your broker profile?' } %>
-                                    <% end %>
-                                </td>
+<table class="table">
+    <thead>
+        <th>Symbol</th>
+        <th>Company</th>
+        <th>Latest Price</th>
+        <% if user_signed_in? && current_user.role_id === 2 %>
+            <% if current_user.status_approved? %>
+                <th>Current Qty</th>
+                <th>add/update stocks on broker profile</th>
+            <% else %>
+                <th class="is-warning">(warning: your broker status needs to be approved first)</th>
+            <% end %>
+        <% end %>
+    </thead>
+    <tbody>
+        <h1 class="title">Top Stocks for Sale</h1>
+        <%@stocks.each do |stock| %>
+            <tr>
+                <% quote = @client.quote(stock.symbol) %>
+                <td> <%= "#{stock.symbol}" %> </td>
+                <td> <%= "#{quote.company_name}" %> </td>
+                <td> <%= "#{quote.latest_price}" %> </td>
+                <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? %>
+                    <% @user_stock = UserStock.where(stock_id: stock.id, user_id: current_user.id).first %>
+                    <td> <%= @user_stock.class.to_s === "UserStock" ? @user_stock.quantity : "none" %> </td>
+                    <td>
+                        <% if @user_stock.class.to_s === "UserStock" %>         
+                            <%= form_with model: [@user, @stock, @user_stock], method: "put", local: true do |form| %>                  
+                                <%= form.hidden_field :user_id, value: current_user.id %>
+                                <%= form.hidden_field :stock_id, value: stock.id %>
+                                <% if true %>
+                                    <%= form.label :quantity %>
+                                    <%= form.number_field :quantity %>
+                                <% end %>
+                                <%= form.submit "update quantity", data: { confirm: 'Update quantity?' } %>
                             <% end %>
-                        </tr>
-                    <% end %>
-                </tbody>
-            <table>
-        </div>
-    </div>
-</section>
+
+                        <% else %>
+                            <%= form_with scope: :user_stock, url: user_stocks_path, method: "post", local: true do |form| %>
+                                
+                                <%= form.hidden_field :user_id, value: current_user.id %>
+                                <%= form.hidden_field :stock_id, value: stock.id %>
+                                <% if true %>
+                                    <%= form.label :quantity %>
+                                    <%= form.number_field :quantity %>
+                                <% end %>
+                                <%= form.submit "add to profile", data: { confirm: 'Are you sure you want to add this to your broker profile?' } %>
+                            <% end %>
+                        <% end %>
+                    </td>
+                <% end %>
+            </tr>
+        <% end %>
+    </tbody>
+<table>
