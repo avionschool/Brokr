@@ -17,6 +17,7 @@
                 <table class = "table">
 
                     <thead>
+                        <th> Date </th>
                         <th> Symbol </th>
                         <th> Quantity </th>
                         <th> Purchase Price </th>
@@ -30,6 +31,7 @@
 
                             <tr>
                                 <% quote = @client.quote(stock.symbol) %>
+                                <td> <%= "#{transaction.created_at.strftime("%b %d, %Y")}"%> </td>
                                 <td> <%= "#{stock.symbol}"%> </td>
                                 <td> <%= "#{transaction.quantity}"%> </td>
                                 <td> <%= "#{transaction.purchase_price}"%> </td>
