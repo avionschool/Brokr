@@ -13,9 +13,3 @@
  *= require_tree .
  *= require_self
  */
-
- .navbar-logo {
-    background: url(https://i.ibb.co/P67W6Jb/output-onlinepngtools-2.png) no-repeat center center;
-    background-size: cover;
-    width: 152px
-  }
