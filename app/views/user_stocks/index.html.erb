@@ -21,16 +21,18 @@
           </thead>
 
           <tbody>
-            <% Stock.all.each do |stock| %>
-              <% quote = @client.quote(stock.symbol) %>
-              <tr>
-                <td> <%= "#{stock.symbol}" %> </td>
-                <td> <%= "#{quote.company_name}" %> </td>
-                <td> <%= "#{quote.latest_price}" %> </td>
-              </tr>
-              
+            <% Stock.all.each do |stock| %>  
               <% UserStock.where(stock_id: stock.id).each do |user_stock| %>
-                <% @broker = User.find_by(id: user_stock.user_id) %>
+                <% @broker = User.find_by(id: user_stock.user_id, role_id: 2) %>
+                <%# show only UserStocks that are (1) on sale and (2) associated with brokers %>
+                <% if(@broker.present?) %>
+                <% quote = @client.quote(stock.symbol) %>
+                  <tr>
+                    <td> <%= "#{stock.symbol}" %> </td>
+                    <td> <%= "#{quote.company_name}" %> </td>
+                    <td> <%= "#{quote.latest_price}" %> </td>
+                  </tr>
+                <% end %>
                 <tr>
                   <td></td>
                   <td><%= link_to @broker.email, user_path(@broker.id) %></td>
