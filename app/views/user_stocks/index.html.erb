@@ -32,13 +32,14 @@
                     <td> <%= "#{quote.company_name}" %> </td>
                     <td> <%= "#{quote.latest_price}" %> </td>
                   </tr>
-                <% end %>
+                
                 <tr>
                   <td></td>
                   <td><%= link_to @broker.email, user_path(@broker.id) %></td>
                   <td></td>
                 </tr>
               <% end %>
+            <% end %>
             <% end %>
             
           </tbody>

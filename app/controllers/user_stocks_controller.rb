@@ -39,29 +39,18 @@ class UserStocksController < ApplicationController
   end
 
   def update
-<<<<<<< HEAD
-    @user_stocks = UserStock.find(params[:id])
-        if @user_stocks.update(user_stock_params)
-            redirect_to "/users/#{current_user.id}"
-        end
-=======
     @user_stock = UserStock.find(params[:id])
     @user_stock.update(user_stock_params)
     
     redirect_to "/users/#{current_user.id}"
->>>>>>> 77af13af4fcef99c63528d9507b621de0a54fca7
   end
 
   def destroy
       @user_stock = UserStock.find(params[:id])
       @user_stock.destroy
-<<<<<<< HEAD
-      redirect_to "/users/#{params[:user_id]}"
-=======
       # redirect_to user_stocks_path
       # redirect_to "/users/#{params[:user_id]}"
       redirect_to "/users/#{current_user.id}"
->>>>>>> 77af13af4fcef99c63528d9507b621de0a54fca7
   end
 
   private
