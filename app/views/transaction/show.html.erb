@@ -1,0 +1,48 @@
+<%# when user click transactions in nav bar %>
+<%# header: symbol | *price | quantity | *broker email | total_price   %>
+
+<%# IF user admin => show all transactions%>
+<%# ELSE IF broker/buyer => show current_user transactions%>
+
+<% @client = IEX::Api::Client.new(
+    publishable_token: 'pk_3fac9a23e6694fdcb684099ec25cf67b',
+    secret_token: 'sk_9d27a9ab69c64168ad4fad54cf700ecb',
+    endpoint: 'https://cloud.iexapis.com/v1'
+)%>
+
+<section class="section">
+    <div class="columns is-centered">
+        <div class="column is-narrow">
+            <% if Transaction.where(user_id: current_user.id).present? %>
+                <table class = "table">
+
+                    <thead>
+                        <th> Date </th>
+                        <th> Symbol </th>
+                        <th> Quantity </th>
+                        <th> Purchase Price </th>
+                        <th> Total Price </th>
+                    </thead>
+
+                    <tbody>
+                        <% @transactions = (current_user.role_id === 1) ? Transaction.all : Transaction.where(user_id: current_user.id)%>
+                        <% @transactions.each do |transaction| %>
+                            <% stock = Stock.find_by(id: transaction.stock_id)%>
+
+                            <tr>
+                                <% quote = @client.quote(stock.symbol) %>
+                                <td> <%= "#{transaction.created_at.strftime("%b %d, %Y")}"%> </td>
+                                <td> <%= "#{stock.symbol}"%> </td>
+                                <td> <%= "#{transaction.quantity}"%> </td>
+                                <td> <%= "#{transaction.purchase_price}"%> </td>
+                                <td> <%= "#{transaction.purchase_price * transaction.quantity}"%> </td>
+                            </tr>
+
+                        <% end %>
+                    </tbody>
+
+                </table>
+            <% end %>
+        </div>
+    </div>
+</section>

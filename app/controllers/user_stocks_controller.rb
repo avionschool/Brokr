@@ -31,7 +31,15 @@ class UserStocksController < ApplicationController
       @user_stock.save
     end
 
+    #create a transaction record
+    Transaction.create(user_stock_params)
+
     redirect_to "/users/#{current_user.id}"
+
+  end
+
+  def record
+
   end
 
   def edit
@@ -40,22 +48,20 @@ class UserStocksController < ApplicationController
 
   def update
     @user_stock = UserStock.find(params[:id])
-    @user_stock.update(user_stock_params)
-    
-    redirect_to "/users/#{current_user.id}"
+    if @user_stock.update(user_stock_params)
+        redirect_to "/users/#{current_user.id}"
+    end
   end
 
   def destroy
       @user_stock = UserStock.find(params[:id])
       @user_stock.destroy
-      # redirect_to user_stocks_path
-      # redirect_to "/users/#{params[:user_id]}"
-      redirect_to "/users/#{current_user.id}"
+      redirect_to "/users/#{params[:user_id]}"
   end
 
   private
   def user_stock_params
-      params.require(:user_stock).permit(:user_id, :stock_id, :quantity)
+      params.require(:user_stock).permit(:user_id, :stock_id, :quantity, :id, :purchase_price)
   end
 
  

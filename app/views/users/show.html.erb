@@ -18,50 +18,55 @@
     endpoint: 'https://cloud.iexapis.com/v1'
 )%>
 
-<table class="table">
-    <thead>
-        <th>Symbol</th>
-        <th>Company</th>
-        <th>Latest Price</th>
-        <th>Qty</th>
-        <% if user_signed_in? && current_user.role_id === 2 %>
-            <% if current_user.status_approved? && current_user === @user %>
-                <th>broker options</th>
-            <% end %>
-        <% end %>
-        <% if user_signed_in? && current_user.role_id === 3 %>
-            <% if current_user.status_approved? %>
-                <th>buyer options</th>
-            <% end %>
-        <% end %>
-    </thead>
-    <tbody>
-        <h1 class="title">Stocks for Sale</h1>
+<section class="section">
+    <div class="columns is-centered">
+        <div class="column is-narrow">
+            <table class="table">
+                <thead>
+                    <th>Symbol</th>
+                    <th>Company</th>
+                    <th>Latest Price</th>
+                    <th>Qty</th>
+                    <% if user_signed_in? && current_user.role_id === 2 %>
+                        <% if current_user.status_approved? %>
+                            <th>broker options</th>
+                        <% end %>
+                    <% end %>
+                    <% if user_signed_in? && current_user.role_id === 3 %>
+                        <% if current_user.status_approved? %>
+                            <th>buyer options</th>
+                        <% end %>
+                    <% end %>
+                </thead>
+                <tbody>
+                    <% if current_user.role_id === 2 %>
+                        <h1 class="title">Stocks for Sale</h1>
+                    <% elsif current_user.role_id === 3 %>
+                    <h1 class="title">Stocks Acquired</h1>
+                    <% end %>
+                    
+                    <% @user_stocks = UserStock.where(user_id: @user.id) %>
 
+                    <%# @stocks.each do |stock| %>
+                    <% @user_stocks.each do |user_stock| %>
+                        <% stock = Stock.find_by(id: user_stock.stock_id) %>
+                        <tr>
+                            <% quote = @client.quote(stock.symbol) %>
+                            <td> <%= "#{stock.symbol}" %> </td>
+                            <td> <%= "#{quote.company_name}" %> </td>
+                            <td> <%= "#{quote.latest_price}" %> </td>
+                            <td> <%= "#{user_stock.quantity}" %> </td>
+                            <% if user_signed_in? && current_user.role_id != 1 && current_user.status_approved? && current_user === @user %>
+                                <td>
+                                    <%= link_to "remove", user_stock_path(:id => user_stock.id, :user_id => @user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                </td>
+                            <% end %>
+                        </tr>
+                    <% end %>
+                </tbody>
+            <table>
+        </div>
+    </div>
+</section>
 
-        <% @user_stocks = UserStock.where(user_id: @user.id) %>
-
-        <%# @stocks.each do |stock| %>
-        <% @user_stocks.each do |user_stock| %>
-            <% stock = Stock.find_by(id: user_stock.stock_id) %>
-            <% quote = @client.quote(stock.symbol) %>
-            <tr>
-                <td> <%= "#{stock.symbol}" %> </td>
-                <td> <%= "#{quote.company_name}" %> </td>
-                <td> <%= "#{quote.latest_price}" %> </td>
-                <td> <%= "#{user_stock.quantity}" %> </td>
-                <% if user_signed_in? && current_user.role_id === 2 && current_user.status_approved? && current_user === @user  %>
-                    <td>
-                        <%= link_to "remove", user_stock_path(:id => user_stock.id, :user_id => @user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-                    </td>
-                <% end %>
-                <% if user_signed_in? && current_user.role_id === 3 %>
-                    <td>
-                        
-                    </td>
-                <% end %>
-            </tr>
-        <% end %>
-    </tbody>
-<table>
 

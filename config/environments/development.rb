@@ -1,5 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+    # Default Mailer Host
+    Rails.application.routes.default_url_options[:host] = 'http://localhost:3000/'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -9,26 +11,6 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  # Show full error reports.
-
-  config.action_mailer.raise_delivery_errors = true
-  config.consider_all_requests_local = true
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_options = {from: 'brokr@dispostable.com'}
-  config.action_mailer.smtp_settings = {
-    user_name: 'apikey',
-    password: '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',
-    domain: 'http://localhost:3000/',
-    address: 'smtp.sendgrid.net',
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
-
-  config.action_mailer.perform_deliveries = true
-
-  
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
