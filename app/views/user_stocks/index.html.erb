@@ -1,0 +1,49 @@
+<% @client = IEX::Api::Client.new(
+  publishable_token: 'pk_3fac9a23e6694fdcb684099ec25cf67b',
+  secret_token: 'sk_9d27a9ab69c64168ad4fad54cf700ecb',
+  endpoint: 'https://cloud.iexapis.com/v1'
+)%> 
+<section class="section">
+  <div class="container">
+    <h1 class="title">
+      Stocks on Sale
+    </h1>
+    <h3 class="subtitle">
+      connect with our brokers
+    </h3>
+      <table class ="table">
+          <thead>
+          <tr>
+              <th>Symbol</th>
+              <th>Company Name</th>
+              <th>Latest Market Price</th>
+          </tr>
+          </thead>
+
+          <tbody>
+            <% Stock.all.each do |stock| %>  
+              <% UserStock.where(stock_id: stock.id).each do |user_stock| %>
+                <% @broker = User.find_by(id: user_stock.user_id, role_id: 2) %>
+                <%# show only UserStocks that are (1) on sale and (2) associated with brokers %>
+                <% if(@broker.present?) %>
+                <% quote = @client.quote(stock.symbol) %>
+                  <tr>
+                    <td> <%= "#{stock.symbol}" %> </td>
+                    <td> <%= "#{quote.company_name}" %> </td>
+                    <td> <%= "#{quote.latest_price}" %> </td>
+                  </tr>
+                <% end %>
+                <tr>
+                  <td></td>
+                  <td><%= link_to @broker.email, user_path(@broker.id) %></td>
+                  <td></td>
+                </tr>
+              <% end %>
+            <% end %>
+            
+          </tbody>
+      </table>
+  </div>
+</section>
+
+    
