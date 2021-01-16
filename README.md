@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-# Brokr
-=======
-# README
+# Brokr README
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
@@ -27,5 +24,3 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
->>>>>>> 6f2a7fcb960741dfc2f9e23eaa856c64f9c24043

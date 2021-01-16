@@ -31,10 +31,14 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
   
+
+  (This is a <%= Role.find_by(id: current_user.role_id).name %> account)
+  <% if false %>
   <div class="field">
     <%= f.label :role_id %><br>
     <%= f.select :role_id, options_from_collection_for_select(Role.all, :id, :name, f.object.role_id) %>
   </div>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Update" %>

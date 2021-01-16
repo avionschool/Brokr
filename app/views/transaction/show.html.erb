@@ -34,8 +34,10 @@
                                 <td> <%= "#{transaction.created_at.strftime("%b %d, %Y")}"%> </td>
                                 <td> <%= "#{stock.symbol}"%> </td>
                                 <td> <%= "#{transaction.quantity}"%> </td>
-                                <td> <%= "#{transaction.purchase_price}"%> </td>
-                                <td> <%= "#{transaction.purchase_price * transaction.quantity}"%> </td>
+                                <% if transaction.purchase_price.present? %>
+                                    <td> <%= "#{transaction.purchase_price}"%> </td>
+                                    <td> <%= "#{transaction.purchase_price * transaction.quantity}"%> </td>
+                                <% end %>
                             </tr>
 
                         <% end %>
